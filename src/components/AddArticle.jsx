@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import { Timestamp, collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage, db, auth } from "./../firebaseConfig";
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom'
 
 export default function AddArticle() {
+  const navigate = useNavigate()
+  const [user] = useAuthState(auth)
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -56,15 +60,16 @@ export default function AddArticle() {
             description: formData.description,
             imageUrl: url,
             createdAt: Timestamp.now().toDate(),
-            // createdBy: user.displayName,
-            // userId: user.uid,
-            // likes: [],
-            // comments: []
+            createdBy: user.displayName,
+            userId: user.uid,
+            likes: [],
+            comments: []
           })
             .then(() => {
               // 显示成功添加文章的提示消息，并重置上传进度为0
               toast("Article added successfully", { type: "success" });
               setProgress(0);
+              navigate('/')
             })
             .catch((err) => {
               // 如果保存文章时出现错误，显示错误提示消息
@@ -76,53 +81,60 @@ export default function AddArticle() {
   };
 
   return (
-    <div className='border p-3 mt-3 bg-light' style={{ position: 'fixed' }}>
-
-      {/* title input */}
-      <h2>Create Title</h2>
-      <label htmlFor=''>Title</label>
-      <input
-        type='text'
-        name='title'
-        className='form-control'
-        value={formData.title}
-        onChange={(e) => handleChange(e)} />
-
-      {/* description input */}
-      <label htmlFor="">Description</label>
-      <textarea
-        name='description'
-        className='form-control'
-        value={formData.description}
-        onChange={(e) => handleChange(e)} />
-
-      {/* picture input */}
-      <label htmlFor=''>Picture</label>
-      <input
-        type='file'
-        name='image'
-        accept='image/*'
-        className='form-control'
-        onChange={(e) => handleImgChange(e)} />
-
-      {/* progress bar */}
-      {progress === 0 ? null : (
-        <div className='progress'>
-          <div
-            className='progress-bar progress-bar-striped mt-2 text-black text-xl'
-            style={{ width: `${progress}%`, height:'3rem'}}>
-            `uploading image ${progress}%`
-          </div>
-        </div>
-      )}
-
-      {/* publish button */}
-      <button
-        className='form-control btn-primary mt-2'
-        onClick={handlePublish}>
-        Publish
-      </button>
-
-    </div>
+    <>
+      {
+        user
+          ?
+          (<div className='border p-3 bg-light' style={{ marginTop: 70 }} >
+            {/* title input */}
+            < h2 > Create Title</h2 >
+            <label htmlFor=''>Title</label>
+            <input
+              type='text'
+              name='title'
+              className='form-control'
+              value={formData.title}
+              onChange={(e) => handleChange(e)} />
+            {/* description input */}
+            <label htmlFor="">Description</label>
+            <textarea
+              name='description'
+              className='form-control'
+              value={formData.description}
+              onChange={(e) => handleChange(e)} />
+            {/* picture input */}
+            <label htmlFor=''>Picture</label>
+            <input
+              type='file'
+              name='image'
+              accept='image/*'
+              className='form-control'
+              onChange={(e) => handleImgChange(e)} />
+            {/* progress bar */}
+            {
+              progress === 0 ? null : (
+                <div className='progress'>
+                  <div
+                    className='progress-bar progress-bar-striped mt-2 text-black text-xl'
+                    style={{ width: `${progress}%`, height: '3rem' }}>
+                    `uploading image ${progress}%`
+                  </div>
+                </div>
+              )
+            }
+            {/* publish button */}
+            <button
+              className='form-control btn-primary mt-2'
+              onClick={handlePublish}>
+              Publish
+            </button>
+          </div >
+          )
+          :
+          (<div className='border p-3 bg-light' style={{ marginTop: 70 }} >
+            <h2>Please login first</h2>
+          </div>)
+      }
+    </>
   )
 }
