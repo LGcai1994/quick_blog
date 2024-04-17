@@ -1,4 +1,3 @@
-1.homepage showing article show the like numbers
 2.fix long descirption showing problem, let it reline automaticly
 3.view the article, let the picture scale up and scale down by clicking the picture and close button, using a modal
 4.user image, show in header right side, homepage, view article page and comment line
