@@ -28,7 +28,7 @@ export default function AddArticle() {
     const storageRef = ref(storage, `/images/${Date.now()}${formData.image.name}`);
     // 将图片上传到 Firebase Storage 中
     const uploadImage = uploadBytesResumable(storageRef, formData.image);
-    // 监听上传状态
+    // 监听上传状态, 存在多个回调函数
     uploadImage.on("state_changed",
       // 回调函数计算上传进度
       (snapshot) => {
@@ -58,8 +58,8 @@ export default function AddArticle() {
             createdAt: Timestamp.now().toDate(),
             // createdBy: user.displayName,
             // userId: user.uid,
-            likes: [],
-            comments: []
+            // likes: [],
+            // comments: []
           })
             .then(() => {
               // 显示成功添加文章的提示消息，并重置上传进度为0
@@ -106,11 +106,15 @@ export default function AddArticle() {
         onChange={(e) => handleImgChange(e)} />
 
       {/* progress bar */}
-      <div className='progress'>
-        <div className='progress-bar progress-bar-striped mt-2' style={{ width: '50%' }}>
-          50%
+      {progress === 0 ? null : (
+        <div className='progress'>
+          <div
+            className='progress-bar progress-bar-striped mt-2 text-black text-xl'
+            style={{ width: `${progress}%`, height:'3rem'}}>
+            `uploading image ${progress}%`
+          </div>
         </div>
-      </div>
+      )}
 
       {/* publish button */}
       <button

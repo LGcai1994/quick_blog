@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { db } from '../firebaseConfig'
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
+import { DeleteArticle } from './DeleteArticle'
 
 export default function Articles() {
     const [articles, setArticles] = useState([])
@@ -33,10 +34,13 @@ export default function Articles() {
                                     <div className='col-4'>
                                         <img src={imageUrl} alt='blog picture' style={{ height: 180, width: 180 }} />
                                     </div>
-                                    <div className='col-8 ps-3'>
+                                    <div className='col-6 ps-3'>
                                         <h2>{title}</h2>
                                         <p>{createdAt.toDate().toDateString()}</p>
                                         <h4>{description}</h4>
+                                    </div>
+                                    <div className='col-2 d-flex justify-content-end align-items-end'>
+                                        <DeleteArticle id={id} imageUrl={imageUrl} />
                                     </div>
                                 </div>
                             </div>
