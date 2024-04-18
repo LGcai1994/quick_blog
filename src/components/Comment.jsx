@@ -44,8 +44,7 @@ const Comment = ({ id }) => {
             }).then(
                 () => {
                     setComment('')
-                }
-            )
+                })
         }
     }
 
@@ -53,8 +52,7 @@ const Comment = ({ id }) => {
         <div>
             <div className='container'>
                 comments:
-                {
-                    comments !== null &&
+                {comments !== null &&
                     comments.map(
                         ({ commentId, user, comment, userName, createdAt }) => (
                             <div key={commentId}>
@@ -69,26 +67,25 @@ const Comment = ({ id }) => {
                                     </div>
                                     <div className='col-1'>
                                         {user === currentUser.uid && (
-                                            <i className='fa fa-times' style={{ cursor: 'pointer' }} onClick={() => handleDeleteComment({ commentId, user, comment, userName, createdAt })}
+                                            <i
+                                                className='fa fa-times'
+                                                style={{ cursor: 'pointer' }}
+                                                onClick={() => handleDeleteComment({ commentId, user, comment, userName, createdAt })}
                                             />
                                         )}
                                     </div>
                                 </div>
                             </div>
-                        )
-                    )
-                }
-                {
-                    currentUser && (
-                        <input
-                            type="text"
-                            className="form-control mt-4 mb-5"
-                            value={comment}
-                            onChange={(e) => setComment(e.target.value)}
-                            placeholder='Add a comment'
-                            onKeyUp={(e) => { handleChangeComment(e) }} />
-                    )
-                }
+                        ))}
+                {currentUser && (
+                    <input
+                        type="text"
+                        className="form-control mt-4 mb-5"
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                        placeholder='Add a comment'
+                        onKeyUp={(e) => { handleChangeComment(e) }} />
+                )}
             </div>
         </div>
     )

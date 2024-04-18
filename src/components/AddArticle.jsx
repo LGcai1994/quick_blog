@@ -16,6 +16,7 @@ export default function AddArticle() {
     createdAt: Timestamp.now().toDate()
   })
   const [progress, setProgress] = useState(0)
+  const [isPublishing, setIsPublishing] = useState(false)
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -23,11 +24,22 @@ export default function AddArticle() {
   const handleImgChange = (e) => {
     setFormData({ ...formData, image: e.target.files[0] })
   }
-  const handlePublish = () => {
+  const handleKeyPress = (e) => {
+    e.preventDefault()
+    if (e.key === 'Enter' && !isPublishing) {
+      handlePublish(e)
+    }
+  }
+  const handlePublish = (e) => {
+    e.preventDefault()
     if (!formData.title || !formData.description || !formData.image) {
       alert("Please fill all the fields");
       return;
+    } else if (isPublishing) {
+      alert('Publishing, please wait')
     }
+
+    setIsPublishing(true)
     // 对应于用户上传图片的存储引用 (storageRef)
     const storageRef = ref(storage, `/images/${Date.now()}${formData.image.name}`);
     // 将图片上传到 Firebase Storage 中
@@ -44,6 +56,7 @@ export default function AddArticle() {
       // 处理错误回调函数
       (err) => {
         console.log(err);
+        setIsPublishing(false)
       },
       // 上传完毕回调函数
       () => {
@@ -74,6 +87,7 @@ export default function AddArticle() {
             .catch((err) => {
               // 如果保存文章时出现错误，显示错误提示消息
               toast("Error adding article", { type: "error" });
+              setIsPublishing(false)
             });
         });
       }
@@ -82,59 +96,61 @@ export default function AddArticle() {
 
   return (
     <>
-      {
-        user
-          ?
-          (<div className='border p-3 bg-light' style={{ marginTop: 70 }} >
-            {/* title input */}
-            < h2 > Create Title</h2 >
-            <label htmlFor=''>Title</label>
-            <input
-              type='text'
-              name='title'
-              className='form-control'
-              value={formData.title}
-              onChange={(e) => handleChange(e)} />
-            {/* description input */}
-            <label htmlFor="">Description</label>
-            <textarea
-              name='description'
-              className='form-control'
-              value={formData.description}
-              onChange={(e) => handleChange(e)} />
-            {/* picture input */}
-            <label htmlFor=''>Picture</label>
-            <input
-              type='file'
-              name='image'
-              accept='image/*'
-              className='form-control'
-              onChange={(e) => handleImgChange(e)} />
-            {/* progress bar */}
-            {
-              progress === 0 ? null : (
-                <div className='progress'>
-                  <div
-                    className='progress-bar progress-bar-striped mt-2 text-black text-xl'
-                    style={{ width: `${progress}%`, height: '3rem' }}>
-                    `uploading image ${progress}%`
-                  </div>
-                </div>
-              )
-            }
-            {/* publish button */}
-            <button
-              className='form-control btn-primary mt-2'
-              onClick={handlePublish}>
-              Publish
-            </button>
-          </div >
-          )
-          :
-          (<div className='border p-3 bg-light' style={{ marginTop: 70 }} >
-            <h2>Please login first</h2>
-          </div>)
-      }
+      {user
+        ?
+        (<div className='border p-3 bg-light' style={{ marginTop: 70 }} >
+          {/* title input */}
+          < h2 > Create Title</h2 >
+          <label htmlFor=''>Title</label>
+          <input
+            type='text'
+            name='title'
+            className='form-control'
+            value={formData.title}
+            onChange={(e) => handleChange(e)}
+            onKeyUp={(e) => handleKeyPress(e)}
+          />
+          {/* description input */}
+          <label htmlFor="">Description</label>
+          <textarea
+            name='description'
+            className='form-control'
+            value={formData.description}
+            onChange={(e) => handleChange(e)}
+            onKeyUp={(e) => handleKeyPress(e)}
+          />
+          {/* picture input */}
+          <label htmlFor=''>Picture</label>
+          <input
+            type='file'
+            name='image'
+            accept='image/*'
+            className='form-control'
+            onChange={(e) => handleImgChange(e)}
+            onKeyUp={(e) => handleKeyPress(e)}
+          />
+          {/* progress bar */}
+          {progress === 0 ? null : (
+            <div className='progress'>
+              <div
+                className='progress-bar progress-bar-striped mt-2 text-black text-xl'
+                style={{ width: `${progress}%`, height: '3rem' }}>
+                `uploading image ${progress}%`
+              </div>
+            </div>
+          )}
+          {/* publish button */}
+          <button
+            className='form-control btn-primary mt-2'
+            onClick={(e) => handlePublish(e)}
+            disabled={isPublishing}>
+            Publish
+          </button>
+        </div >)
+        :
+        (<div className='border p-3 bg-light' style={{ marginTop: 70 }} >
+          <h2>Please login first</h2>
+        </div>)}
     </>
   )
 }

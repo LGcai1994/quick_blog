@@ -37,14 +37,12 @@ const ViewArticle = () => {
                             <h2>{article.title}</h2>
                             <h5>Author:{article.createdBy}</h5>
                             <div>Posted on: {article.createdAt.toDate().toDateString()}</div>
+                            <div className='d-flex align-items-center'>
+                                <p className='my-2 pe-2'>{article.likes.length}</p>
+                                {user && <LikeArticle id={id} likes={article.likes} />}
+                            </div>
                             <hr />
                             <p>{article.description}</p>
-                            <div className='d-flex flex-row-reverse'>
-                                {user && <LikeArticle id={id} likes={article.likes} />}
-                                <div className='pe-2'>
-                                    <p>{article.likes.length}</p>
-                                </div>
-                            </div>
                             <Comment id={article.id} />
                         </div>
                     </div>

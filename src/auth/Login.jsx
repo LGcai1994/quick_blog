@@ -9,6 +9,12 @@ const Login = () => {
     const [password, setPassowrd] = useState('')
     const navigate = useNavigate()
 
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleLogin()
+        }
+    }
+
     const handleLogin = async () => {
         try {
             await signInWithEmailAndPassword(auth, email, password)
@@ -24,21 +30,23 @@ const Login = () => {
         <div className='border p-3 bg-light mx-auto' style={{ maxWidth: 400, marginTop: 70 }}>
             <h1>Login</h1>
             <div className='form-group'>
-                <label>Email</label>
+                <label>UserName</label>
                 <input
                     type="text"
                     className='form-control'
                     placeholder='Enter your email'
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value + '@outlook.com')}
+                    onKeyUp={handleKeyPress}
                 />
             </div>
             <div className='form-group'>
-                <label>Passowrd</label>
+                <label>Password</label>
                 <input
                     type="password"
                     className='form-control'
                     placeholder='Enter your passowrd'
                     onChange={(e) => setPassowrd(e.target.value)}
+                    onKeyUp={handleKeyPress}
                 />
             </div>
             <br />
