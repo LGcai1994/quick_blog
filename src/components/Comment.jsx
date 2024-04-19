@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { db } from '../firebaseConfig'
 import { arrayRemove, arrayUnion, doc, onSnapshot, updateDoc } from 'firebase/firestore'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { auth } from '../firebaseConfig'
 import { v4 as uuidv4 } from 'uuid'
+import { AuthContext } from "../auth/AuthContex";
 
 const Comment = ({ id }) => {
+    const { auth } = useContext(AuthContext)
     // leave new comment
     const [comment, setComment] = useState('')
     // get comment from firebase

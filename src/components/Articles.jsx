@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { DeleteArticle } from './DeleteArticle'
 import LikeArticle from "./LikeArticle";
 import { Link } from 'react-router-dom'
-import { auth } from '../firebaseConfig'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { db } from '../firebaseConfig'
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
+import { AuthContext } from "../auth/AuthContex";
 
 export default function Articles() {
     const [articles, setArticles] = useState([])
-    const [user] = useAuthState(auth)
+    const { user } = useContext(AuthContext)
 
     useEffect(() => {
         const articleRef = collection(db, 'Articles')

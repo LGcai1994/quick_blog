@@ -6,11 +6,13 @@ OK 14: constrant description viewing leng on articles page
 OK 5.login use the username instead of email
 OK 8.sign up, double password confirm
 OK 6.hit enter button = hit button
-ok 12：create article multip submit
+OK 12：create article multip submit
+OK 7.if no picture, give a defalut image
 
-3.view the article, let the picture scale up and scale down by clicking the picture and close button, using a modal
+ABANDON
 4.user image, show in header right side, homepage, view article page and comment line
-7.if no picture, give a defalut image
+3.view the article, let the picture scale up and scale down by clicking the picture and close button, using a modal
 
+DEALING
 13：use context to avoid using const [user] = useAuthState(auth) in every components
 9.logout, met problems: sometimes

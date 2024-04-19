@@ -1,10 +1,10 @@
-import React from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { auth, db } from '../firebaseConfig'
+import React, { useContext } from 'react'
+import { db } from '../firebaseConfig'
 import { arrayRemove, arrayUnion, updateDoc, doc } from 'firebase/firestore'
+import { AuthContext } from '../auth/AuthContex'
 
 const LikeArticle = ({ id, likes }) => {
-    const [user] = useAuthState(auth)
+    const { user } = useContext(AuthContext)
     const likesRef = doc(db, 'Articles', id)
 
     const handleLike = () => {

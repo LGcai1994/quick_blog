@@ -10,8 +10,12 @@ export const DeleteArticle = ({ id, imageUrl }) => {
             try {
                 await deleteDoc(doc(db, 'Articles', id))
                 toast(`Article deleted successfully (blog id:${id})`)
-                const storageRef = ref(storage, imageUrl)
-                await deleteObject(storageRef)
+                // check if it is default picture
+                // won't delete default picture
+                if (imageUrl !== 'https://firebasestorage.googleapis.com/v0/b/react-firebase-blog-clg1994.appspot.com/o/defaultImage%2Fpaw.png?alt=media&token=853d289b-a9a6-4274-977e-76ad28077d08') {
+                    const storageRef = ref(storage, imageUrl)
+                    await deleteObject(storageRef)
+                }
             } catch (error) {
                 toast('error deleting article', { type: 'error' })
                 console.log(error)

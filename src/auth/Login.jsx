@@ -1,13 +1,14 @@
-import { signInWithEmailAndPassword, updateProfile } from 'firebase/auth'
-import React, { useState } from 'react'
-import { auth } from '../firebaseConfig'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { AuthContext } from './AuthContex'
 
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassowrd] = useState('')
     const navigate = useNavigate()
+    const { auth } = useContext(AuthContext);
 
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {

@@ -7,12 +7,15 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
 import 'font-awesome/css/font-awesome.css'
+import { AuthProvider } from "./auth/AuthContex";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
-    <ToastContainer />
+    <AuthProvider>
+      <App />
+      <ToastContainer />
+    </AuthProvider>
   </React.StrictMode>
 );
 

@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
-import { auth } from '../firebaseConfig.js'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { AuthContext } from './AuthContex'
 
 const Register = () => {
+    const { auth } = useContext(AuthContext)
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassowrd] = useState('')

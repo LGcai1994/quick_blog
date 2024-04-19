@@ -6,10 +6,8 @@ import Register from "./auth/Register";
 import Login from "./auth/Login";
 import ViewArticle from "./components/ViewArticle";
 
-
 function App() {
   return (
-
     <div className="container">
       <Router>
         <Navbar />

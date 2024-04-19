@@ -1,12 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { auth } from '../firebaseConfig'
-
+import { AuthContext } from '../auth/AuthContex'
 
 const Navbar = () => {
-    const [user] = useAuthState(auth)
+    const { user, auth } = useContext(AuthContext)
     const navigate = useNavigate()
 
     return (
@@ -15,7 +13,7 @@ const Navbar = () => {
             <nav className='navbar'>
                 <div>
                     <img
-                        src='kitty.png'
+                        src='/kitty.png'
                         width={30}
                         height={30}
                         alt='logo'
