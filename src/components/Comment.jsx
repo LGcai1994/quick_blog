@@ -59,7 +59,7 @@ const Comment = ({ id }) => {
                             <div key={commentId}>
                                 <div className='border p-2 mt-2 row'>
                                     <div className='col-11'>
-                                        <span className={`badge ${user === currentUser.uid
+                                        <span className={`badge ${user === currentUser?.uid
                                             ? 'bg-success'
                                             : 'bg-primary'}`}>
                                             {userName}
@@ -67,7 +67,7 @@ const Comment = ({ id }) => {
                                         {comment}
                                     </div>
                                     <div className='col-1'>
-                                        {user === currentUser.uid && (
+                                        {user === currentUser?.uid && (
                                             <i
                                                 className='fa fa-times'
                                                 style={{ cursor: 'pointer' }}
